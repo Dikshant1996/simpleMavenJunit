@@ -1,0 +1,26 @@
+pipeline {
+	agent any
+	stages {
+    	stage('GitHubConnect'){
+        	steps {
+            	git changelog: false, url: 'https://github.com/pavansw/simpleMavenJunit.git'
+        	}
+    	}
+    	stage('Maven Clean and Test'){
+        	steps {
+            	sh label: '', script: 'mvn clean test'
+        	}
+    	}
+    	stage('Report'){
+        	steps {
+            	junit '**/*.xml'
+        	}
+    	}
+    	stage('Maven Package'){
+        	steps {
+            	sh label: '', script: 'mvn package'
+        	}
+    	}
+	}
+}
+
